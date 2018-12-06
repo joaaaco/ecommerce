@@ -1,0 +1,87 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Anckor Store</title>
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+<link rel="stylesheet" href="{% static 'css/util.css' %}"/>
+<link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+<link href="https://fonts.googleapis.com/css?family=Barlow|Barlow+Condensed|Montserrat|Roboto" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+
+<body>
+
+<!--- TOP HEADER --->
+<header>
+  <div class="container-menu-desktop">
+    <div class="top-bar">
+      <div class="content-topbar flex-sb-m h-full container">
+        <div class="left-top-bar">
+          ANCKOR STORE - {{ user.employee.tienda_vendedor }}
+        </div>
+        <div class="right-top-bar flex-w h-full">
+          <span class="flex-c-m p-lr-25">Hola, {{ user.username }}
+            {% if request.user.is_superuser %}
+            (ADMINISTRADOR)
+            {% elif request.user.is_staff %}
+            (ENCARGADO)
+            {% else %}
+            (VENDEDOR)
+            {% endif %}
+        </span>
+          <span class="flex-c-m p-lr-25">{% now "d F Y" %}</span>
+          <span class="flex-c-m p-lr-25">Dolar: $650,43</span>
+        </div>
+      </div>
+    </div>
+    <div class="wrap-menu-desktop" style="top:40px;">
+      <nav class="limiter-menu-desktop container">
+        <a class="logo">
+          <i class="fas fa-anchor"></i>
+          <span class="logotipo">ANCKOR Store</span>
+        </a>
+        <div class="menu-desktop">
+          <ul class="main-menu">
+            <li class="active-menu">
+              <a href="{% url 'home'%}">Home</a>
+            </li>
+            <li>
+              <a href="#">Notificaciones</a>
+            </li>
+            {%if request.user.is_superuser or request.user.is_staff %}
+            <li>
+              <a href="{% url 'chart' user.pk%}">Estadísticas de Vendedores</a>
+            </li>
+            {% else %}
+            <li>
+              <a href="{% url 'chart' user.pk%}">Mis Estadísticas</a>
+            </li>
+            {% endif %}
+            {%if request.user.is_staff %}
+            <li>
+              <a href="{% url 'chart_admin'%}">Estadísticas de Tienda</a></a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+        <div class="wrap-icon-header flex-w flex-r-m">
+          {% if request.user.is_superuser or request.user.is_staff%}<a class="icon-header-item hov-cl1 p-r-11 p-l-22" href="/admin" target="_blank"><i class="fas fa-cog"></i></a>{% endif %}
+          <a class="icon-header-item hov-cl1 p-r-11 p-l-22" href="{% url 'panel-logout' %}"><i class="fas fa-sign-out-alt"></i></a>
+          </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="wrap-content" style="top: 110px;">
+{% block content %}
+{% endblock %}
+</div>
+
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="https://colorlib.com/preview/theme/cozastore/vendor/animsition/js/animsition.min.js"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

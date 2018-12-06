@@ -1,0 +1,80 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Title of the document</title>
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+<link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+<link href="https://fonts.googleapis.com/css?family=Barlow|Barlow+Condensed|Montserrat|Roboto" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div id="sidebar">
+      <div class="sidebar-header">
+        <div class="icon"><i class="fas fa-anchor"></i></div>
+        <span class="logo">Anckor</span>
+        <div class="user-info">
+          <img src="" />
+          <h3>{{ user.username }}</h3>
+          <a href="/notifiations"><i class="far fa-envelope fa-2x"></i></a>
+          <nav>
+            <ul>
+              <li>
+                <a href="/profile">Perfil</a>
+              </li>
+              <li>
+                <a class="logout-btn" href="/logout">LOGOUT</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        </div>
+      <div class="navigation">
+        <nav>
+          <h4>Menú de navegación</h4>
+          <ul>
+            <li>
+              <a href="/home" class=""><i class="fas fa-home"></i> home</a>
+            </li>
+            <li>
+              <a href="/chart"><i class="far fa-chart-bar"></i> estadísticas</a>
+            </li>
+          </ul>
+          <h4>Encargado</h4>
+          <ul>
+            <li>
+              aaa
+            </li>
+            <li>
+              ddd
+            </li>
+          </ul>
+          <h4>Administrador</h4>
+          <ul>
+            <li>
+              <a href="/admin" target="_blank"><i class="fas fa-tachometer-alt"></i> Panel de Administración</a>
+            </li>
+            <li>
+
+            </li>
+          </ul>
+        </nav>
+      </div>
+      </div>
+    <div id="top-header">
+      Hola {{ user.username }}
+      Mi Tienda:
+    </div>
+    <div id="content">
+      {% block content %}
+      {% endblock content %}
+  </div>
+  </div>
+</body>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</html>

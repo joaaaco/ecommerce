@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>ANCKOR STORE</title>
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+<link href="https://fonts.googleapis.com/css?family=Barlow+Condensed:400,500|Poppins:400,500" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<script src="{% static 'js/jquery.js' %}"></script>
+<style>
+body{
+  font-family: 'Poppins', sans-serif;
+}
+.highlight-link{
+  color: #cb9a00;
+}
+.highlight-link:hover{
+  color: #cb9a00;
+}
+
+.login-container{
+  width: 100%;
+min-height: 100vh;
+display: -webkit-box;
+display: -webkit-flex;
+display: -moz-box;
+display: -ms-flexbox;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+padding: 15px;
+background: #f2f2f2;
+}
+.login-wrap{
+  width: 390px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 77px 55px 33px 55px;
+
+  box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+}
+.login-logo{
+  font-size: 36px;
+  text-transform: uppercase;
+  font-family: 'Barlow Condensed';
+  text-align: center;
+  margin-bottom: 4px;
+}
+.login-message{
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.login-recover-password{
+  font-size: 13px;
+  text-align: center;
+}
+
+</style>
+</head>
+
+<body>
+  <div class="login-container">
+    <div class="login-wrap">
+      <div class="login-logo">
+        anckor
+      </div>
+      <div class="login-message">
+        Bienvenido
+      </div>
+        {% block content %}
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Conectar</button>
+          </form>
+        {% endblock %}
+        <div class="login-recover-password text-center mt-5">
+          <a href="#" class="highlight-link" data-toggle="modal" data-target="#exampleModal">¿Olvidó su contraseña?</a>
+        </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Recuperación de contraseña</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Estimado dependiente, para recuperar su contraseña pongase en contacto con su encargado de tienda para obtener una nueva clave de acceso.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</body>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</html>

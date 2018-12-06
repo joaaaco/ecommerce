@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <!--- TOPBAR --->
+      <div class="shop-topbar">
+              topbar
+      </div>
+    </div>
+      <!--- PRODUCTOS --->
+    <div class="col-lg-12">
+      <div class="grid-view">
+        <div class="row">
+          {% for producto in productos %}
+          {% if producto.tienda.id == tiendas.id %}
+          <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="single-product">
+              <div class="product-img">
+                <a href="{% url 'product' producto.pk %}">
+                  <img class="img" src='{{ producto.image.url }}' />
+                </a>
+              </div>
+              {% if producto.oferta == True %}
+              <div class="sticker sticker-sale">
+                <span>SALE</span>
+              </div>
+              {% endif %}
+              {% if producto.novedad == True %}
+              <div class="sticker sticker-new">
+                <span>NEW</span>
+              </div>
+              {% endif %}
+              <div class="product-contents">
+                <h1 class="product-name">{{ producto.nombre }}</h1>
+                <h2 class="product-brand">{{ producto.marca }}</h2>
+                <div class="price-box">
+                  {% if producto.oferta == True %}
+                  <span class="price">$ {{ producto.precio_oferta|intcomma }}</span>
+                  <span class="old-price">$ {{ producto.precio_normal|intcomma }}</span>
+                  {% else %}
+                  <span class="price">$ {{ producto.precio_normal|intcomma }}</span>
+                  {% endif %}
+                  {% if producto.stock > 0 %}
+                  <div class="stock stock-ok"><i class="fas fa-check-circle"></i> Stock: {{ producto.stock }}</div>
+                  {% else %}
+                  <div class="stock stock-no"><i class="fas fa-times-circle"></i> No hay stock</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+  </div>
+</div>
+
+{% endblock %}

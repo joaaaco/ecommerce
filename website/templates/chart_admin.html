@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load mathfilters %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 text-center mb-3">
+      <div class="content-header">
+        <div class="title">Comparativa de ventas actual respecto al mes anterior</div>
+        <div class="period">Periodo en curso: {% now "F Y" %}</div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="card-deck">
+        <div class="card">
+          <div class="card-body chart">
+            <h5>unidades vendidas</h5>
+            <h1 class="resultado">{{ unidades_periodo_actual }}</h1>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body chart">
+            <h5>porcentaje unidades</h5>
+              {% if unidades_periodo_anterior == 0 %}
+              <h1 class="query-return-zero">
+              {{ porcentaje_ventas_periodo }}
+              </h1>
+              {% else %}
+              <h1 class="resultado">
+              {{ porcentaje_ventas_periodo|floatformat:2 }} %
+              </h1>
+              {% endif %}
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body chart">
+            <h5>Importe de ventas</h5>
+            <h1 class="resultado">$ {{ importe_periodo_actual|intcomma }}</h1>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body chart">
+            <h5>porcentaje de importe</h5>
+            {% if importe_periodo_anterior == 0 %}
+            <h1 class="query-return-zero">
+            {{ porcentaje_importe_periodo }}
+            </h1>
+            {% else %}
+            <h1 class="resultado">
+            {{ porcentaje_importe_periodo|floatformat:2 }} %
+            </h1>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-lg-7">
+      <div class="box">
+        <div class="title text-center">Registro de Ventas</div>
+        <div class="content">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Importe</th>
+                <th scope="col">Vendedor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for ventas_periodo_actual in ventas_periodo_actual %}
+              <tr>
+                <th scope="row">{{ ventas_periodo_actual.id }}</th>
+                <td>{{ ventas_periodo_actual.fecha|date:"d N Y" }}</td>
+                <td>{{ ventas_periodo_actual.id_producto }}</td>
+                <td>{{ ventas_periodo_actual.cantidad }}</td>
+                <td>${{ ventas_periodo_actual.monto|intcomma }}</td>
+                <td>{{ ventas_periodo_actual.id_vendedor}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

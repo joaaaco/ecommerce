@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load mathfilters %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 text-center mb-3">
+      <div class="content-header">
+        <div class="title">Informe estadístico de {% for usuario in usuario %}{{ usuario.user.username }}{% endfor %}</div>
+        <div class="period">Periodo en curso: {% now "F Y" %}</div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="card-deck">
+        <div class="card">
+          <div class="card-body chart">
+            <h5>unidades vendidas</h5>
+            <h1 class="resultado">{{ unidades_periodo_actual }}</h1>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body chart">
+            <h5>porcentaje unidades</h5>
+              {% if unidades_periodo_anterior == 0 %}
+              <h1 class="query-return-zero">
+              {{ porcentaje_ventas_periodo }}
+              </h1>
+              {% else %}
+              <h1 class="resultado">
+              {{ porcentaje_ventas_periodo|floatformat:2 }} %
+              </h1>
+              {% endif %}
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body chart">
+            <h5>Importe de ventas</h5>
+            <h1 class="resultado">$ {{ importe_periodo_actual|intcomma }}</h1>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body chart">
+            <h5>porcentaje de importe</h5>
+            {% if importe_periodo_anterior == 0 %}
+            <h1 class="query-return-zero">
+            {{ porcentaje_importe_periodo }}
+            </h1>
+            {% else %}
+            <h1 class="resultado">
+            {{ porcentaje_importe_periodo|floatformat:2 }} %
+            </h1>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-lg-7">
+      <div class="box">
+        <div class="title text-center">Registro de Ventas</div>
+        <div class="content">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Importe</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for ventas_periodo_actual in ventas_periodo_actual%}
+              <tr>
+                <th scope="row">{{ ventas_periodo_actual.id }}</th>
+                <td>{{ ventas_periodo_actual.fecha|date:"d N Y" }}</td>
+                <td>{{ ventas_periodo_actual.id_producto }}</td>
+                <td>{{ ventas_periodo_actual.cantidad }}</td>
+                <td>${{ ventas_periodo_actual.monto|intcomma }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    {%if request.user.is_superuser or request.user.is_staff %}
+    <div class="col-lg-5">
+        <div class="box">
+          <div class="title text-center">Estadísticas de Usuarios</div>
+          <div class="content">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Usuario</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Apellido</th>
+                  <th scope="col">Estadística</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for user_list in user_list %}
+                <tr>
+                  <th scope="row">{{ user_list.user.id }}</th>
+                  <td>{{ user_list.user.username }} {% if usuario.user.is_staff %}<i class="fas fa-crown"></i>{% else %}<i class="fas fa-user"></i>{% endif %}</td>
+                  <td>{{ user_list.user.first_name }}</td>
+                  <td>{{ user_list.user.last_name }}</td>
+                  <td><a href="{% url 'chart' pk=user_list.user.id %}"><i class="fas fa-chart-line"></i></a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
